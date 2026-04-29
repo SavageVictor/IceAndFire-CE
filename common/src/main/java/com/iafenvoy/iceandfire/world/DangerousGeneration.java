@@ -1,6 +1,5 @@
 package com.iafenvoy.iceandfire.world;
 
-import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.uranus.ServerHelper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldAccess;
@@ -16,9 +15,7 @@ public interface DangerousGeneration {
         return Optional.ofNullable(ServerHelper.server).map(server -> this.isFarEnoughFromSpawn(server.getOverworld(), pos)).orElse(true);
     }
 
-    default float getDangerousRadius() {
-        return IafCommonConfig.INSTANCE.worldGen.dangerousDistanceLimit.getValue().floatValue();
-    }
+    double getDangerousRadius();
 
     default BlockPos getOrigin(WorldAccess world, BlockPos pos) {
         BlockPos spawn = world.getLevelProperties().getSpawnPos();

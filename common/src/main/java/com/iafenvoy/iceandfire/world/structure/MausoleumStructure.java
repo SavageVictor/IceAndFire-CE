@@ -62,6 +62,11 @@ public class MausoleumStructure extends IafJigsawStructure implements DangerousG
     }
 
     @Override
+    public double getDangerousRadius() {
+        return IafCommonConfig.INSTANCE.worldGen.dangerousDistanceLimit.getValue();
+    }
+
+    @Override
     public StructureType<?> getType() {
         return IafStructureTypes.MAUSOLEUM.get();
     }

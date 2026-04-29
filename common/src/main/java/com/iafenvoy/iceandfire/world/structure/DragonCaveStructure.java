@@ -6,6 +6,7 @@ import com.iafenvoy.iceandfire.entity.util.HomePosition;
 import com.iafenvoy.iceandfire.item.block.PileBlock;
 import com.iafenvoy.iceandfire.registry.tag.IafBlockTags;
 import com.iafenvoy.iceandfire.world.DangerousGeneration;
+import com.iafenvoy.iceandfire.world.StructureGenerationConfig;
 import com.iafenvoy.uranus.util.RandomHelper;
 import com.iafenvoy.uranus.util.ShapeBuilder;
 import net.minecraft.block.*;
@@ -41,8 +42,20 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public abstract class DragonCaveStructure extends Structure implements DangerousGeneration {
-    protected DragonCaveStructure(Config config) {
+    protected final StructureGenerationConfig generationConfig;
+
+    protected DragonCaveStructure(Config config, StructureGenerationConfig generationConfig) {
         super(config);
+        this.generationConfig = generationConfig;
+    }
+
+    @Override
+    public double getDangerousRadius() {
+        return this.generationConfig.dangerousRadius();
+    }
+
+    protected double getGenerateChance() {
+        return this.generationConfig.generateChance();
     }
 
     @SuppressWarnings("deprecation")
@@ -66,8 +79,6 @@ public abstract class DragonCaveStructure extends Structure implements Dangerous
     }
 
     protected abstract DragonCavePiece createPiece(BlockBox boundingBox, boolean male, BlockPos offset, int y, long seed);
-
-    protected abstract double getGenerateChance();
 
     protected abstract static class DragonCavePiece extends StructurePiece {
         private final boolean male;
