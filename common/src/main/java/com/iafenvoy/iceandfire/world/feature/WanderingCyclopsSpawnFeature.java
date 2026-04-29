@@ -1,5 +1,6 @@
 package com.iafenvoy.iceandfire.world.feature;
 
+import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.registry.IafEntities;
 import com.iafenvoy.iceandfire.world.DangerousGeneration;
 import com.iafenvoy.iceandfire.world.feature.config.WanderingCyclopsFeatureConfig;
@@ -18,6 +19,11 @@ import net.minecraft.world.gen.feature.util.FeatureContext;
 public class WanderingCyclopsSpawnFeature extends Feature<WanderingCyclopsFeatureConfig> implements DangerousGeneration {
     public WanderingCyclopsSpawnFeature() {
         super(WanderingCyclopsFeatureConfig.CODEC);
+    }
+
+    @Override
+    public double getDangerousRadius() {
+        return IafCommonConfig.INSTANCE.worldGen.dangerousDistanceLimit.getValue();
     }
 
     @Override

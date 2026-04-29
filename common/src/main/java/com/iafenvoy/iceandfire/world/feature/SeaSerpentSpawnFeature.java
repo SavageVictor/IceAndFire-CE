@@ -1,5 +1,6 @@
 package com.iafenvoy.iceandfire.world.feature;
 
+import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.entity.SeaSerpentEntity;
 import com.iafenvoy.iceandfire.registry.IafEntities;
 import com.iafenvoy.iceandfire.world.DangerousGeneration;
@@ -15,6 +16,11 @@ import net.minecraft.world.gen.feature.util.FeatureContext;
 public class SeaSerpentSpawnFeature extends Feature<SeaSerpentFeatureConfig> implements DangerousGeneration {
     public SeaSerpentSpawnFeature() {
         super(SeaSerpentFeatureConfig.CODEC);
+    }
+
+    @Override
+    public double getDangerousRadius() {
+        return IafCommonConfig.INSTANCE.worldGen.dangerousDistanceLimit.getValue();
     }
 
     @Override

@@ -1,13 +1,13 @@
 package com.iafenvoy.iceandfire.world.structure;
 
 import com.iafenvoy.iceandfire.IceAndFire;
-import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.entity.DragonBaseEntity;
 import com.iafenvoy.iceandfire.registry.IafBlocks;
 import com.iafenvoy.iceandfire.registry.IafEntities;
 import com.iafenvoy.iceandfire.registry.IafStructurePieces;
 import com.iafenvoy.iceandfire.registry.IafStructureTypes;
 import com.iafenvoy.iceandfire.registry.tag.IafBlockTags;
+import com.iafenvoy.iceandfire.world.StructureGenerationConfig;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.Block;
@@ -27,20 +27,18 @@ import net.minecraft.world.gen.structure.StructureType;
 
 public class IceDragonCaveStructure extends DragonCaveStructure {
     public static final MapCodec<IceDragonCaveStructure> CODEC = RecordCodecBuilder.mapCodec(instance ->
-            instance.group(configCodecBuilder(instance)).apply(instance, IceDragonCaveStructure::new));
+            instance.group(configCodecBuilder(instance),
+                    StructureGenerationConfig.CODEC.optionalFieldOf("generation", StructureGenerationConfig.DEFAULT)
+                            .forGetter(s -> s.generationConfig)
+            ).apply(instance, IceDragonCaveStructure::new));
 
-    protected IceDragonCaveStructure(Config config) {
-        super(config);
+    protected IceDragonCaveStructure(Config config, StructureGenerationConfig generationConfig) {
+        super(config, generationConfig);
     }
 
     @Override
     protected DragonCavePiece createPiece(BlockBox boundingBox, boolean male, BlockPos offset, int y, long seed) {
         return new IceDragonCavePiece(0, boundingBox, male, offset, y, seed);
-    }
-
-    @Override
-    protected double getGenerateChance() {
-        return IafCommonConfig.INSTANCE.worldGen.generateIceDragonCaveChance.getValue();
     }
 
     @Override

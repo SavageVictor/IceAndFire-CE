@@ -1,5 +1,6 @@
 package com.iafenvoy.iceandfire.world.feature;
 
+import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.world.DangerousGeneration;
 import com.iafenvoy.iceandfire.world.feature.config.DeathWormFeatureConfig;
 import net.minecraft.entity.Entity;
@@ -14,6 +15,11 @@ import net.minecraft.world.gen.feature.util.FeatureContext;
 public class DeathWormSpawnFeature extends Feature<DeathWormFeatureConfig> implements DangerousGeneration {
     public DeathWormSpawnFeature() {
         super(DeathWormFeatureConfig.CODEC);
+    }
+
+    @Override
+    public double getDangerousRadius() {
+        return IafCommonConfig.INSTANCE.worldGen.dangerousDistanceLimit.getValue();
     }
 
     @Override

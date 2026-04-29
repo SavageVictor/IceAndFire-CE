@@ -62,6 +62,11 @@ public class GorgonTempleStructure extends IafJigsawStructure implements Dangero
     }
 
     @Override
+    public double getDangerousRadius() {
+        return IafCommonConfig.INSTANCE.worldGen.dangerousDistanceLimit.getValue();
+    }
+
+    @Override
     public StructureType<?> getType() {
         return IafStructureTypes.GORGON_TEMPLE.get();
     }

@@ -1,7 +1,6 @@
 package com.iafenvoy.iceandfire.world.structure;
 
 import com.iafenvoy.iceandfire.IceAndFire;
-import com.iafenvoy.iceandfire.config.IafCommonConfig;
 import com.iafenvoy.iceandfire.entity.DragonBaseEntity;
 import com.iafenvoy.iceandfire.registry.IafBlocks;
 import com.iafenvoy.iceandfire.registry.IafEntities;
@@ -9,6 +8,7 @@ import com.iafenvoy.iceandfire.registry.IafStructurePieces;
 import com.iafenvoy.iceandfire.registry.IafStructureTypes;
 import com.iafenvoy.iceandfire.registry.tag.CommonBlockTags;
 import com.iafenvoy.iceandfire.registry.tag.IafBlockTags;
+import com.iafenvoy.iceandfire.world.StructureGenerationConfig;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.Block;
@@ -30,20 +30,18 @@ import net.minecraft.world.gen.structure.StructureType;
 
 public class FireDragonRoostStructure extends DragonRoostStructure {
     public static final MapCodec<FireDragonRoostStructure> CODEC = RecordCodecBuilder.mapCodec(instance ->
-            instance.group(configCodecBuilder(instance)).apply(instance, FireDragonRoostStructure::new));
+            instance.group(configCodecBuilder(instance),
+                    StructureGenerationConfig.CODEC.optionalFieldOf("generation", StructureGenerationConfig.DEFAULT)
+                            .forGetter(s -> s.generationConfig)
+            ).apply(instance, FireDragonRoostStructure::new));
 
-    protected FireDragonRoostStructure(Config config) {
-        super(config);
+    protected FireDragonRoostStructure(Config config, StructureGenerationConfig generationConfig) {
+        super(config, generationConfig);
     }
 
     @Override
     protected DragonRoostPiece createPiece(BlockBox boundingBox, boolean isMale) {
         return new FireDragonRoostPiece(0, boundingBox, IafBlocks.GOLD_PILE.get(), isMale);
-    }
-
-    @Override
-    protected double getGenerateChance() {
-        return IafCommonConfig.INSTANCE.worldGen.generateFireDragonRoostChance.getValue();
     }
 
     @Override
